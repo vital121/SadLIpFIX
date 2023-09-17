@@ -84,9 +84,7 @@ cd SadTalker-Video-Lip-Sync
 megadl https://mega.nz/file/cW833LJY#ZCaLy3_5SUntsb_wOPztzVAwwI2rbmva8sf4bIWxPTw
 tar -zxvf checkpoints.tar.gz
 ```
-| Colab |
-| --- | --- |
-[![Открыть на колаб](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NeuroDonu/SadLIpFIX/blob/master/notebook.ipynb) | coqui_XTTS_colab
+[![Открыть на колаб](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NeuroDonu/SadLIpFIX/blob/master/notebook.ipynb) 
 
 
 ## Взято за основу
