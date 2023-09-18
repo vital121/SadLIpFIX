@@ -5,7 +5,7 @@
 
 Также на Colab блокноте было реализовано XTTS, так что по сути на данный момент это аналог HeyGen с открытым исходным кодом. В будущем реализую красивый gradio сайт.
 
-Колаб: [![Открыть на колаб](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NeuroDonu/SadLIpFIX/blob/master/notebook.ipynb) 
+Колаб: [![Открыть на колаб](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NeuroDonu/SadLIpFIX/blob/master/notebok.ipynb) 
 
 ## 1.Установка среды. (Environment)
 
