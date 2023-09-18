@@ -12,12 +12,9 @@
 ```
 git clone https://github.com/NeuroDonu/SadLIpFIX
 cd /SadLIpFIX/
+python -m venv venv 
 pip install torch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
 apt install ffmpeg -y
-pip install face_alignment facexlib yacs basicsr
-wget https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-linux.zip
-unzip ninja-linux.zip -d /usr/local/bin/
-update-alternatives --install /usr/bin/ninja ninja /usr/local/bin/ninja 1 --force
 pip install -r requirements.txt
 python -m pip install paddlepaddle-gpu==2.3.2 --extra-index-url https://paddle-wheel.bj.bcebos.com/2.5.1/linux/linux-gpu-cuda12.0-cudnn8.9-mkl-gcc12.2-avx/paddlepaddle_gpu-2.5.1.post120-cp39-cp39-linux_x86_64.whl
 ```
