@@ -1,7 +1,8 @@
+import gradio as gr
 import torch
 from time import strftime
 import os, sys
-from argparse import ArgumentParser
+from argparse import Namespace
 from src.utils.preprocess import CropAndExtract
 from src.test_audio2coeff import Audio2Coeff
 from src.facerender.animate import AnimateFromCoeff
@@ -10,9 +11,35 @@ from src.generate_facerender_batch import get_facerender_data
 from third_part.GFPGAN.gfpgan import GFPGANer
 from third_part.GPEN.gpen_face_enhancer import FaceEnhancement
 import warnings
+import argparse
+from argparse import ArgumentParser
 
 warnings.filterwarnings("ignore")
 
+def process_video(source_video, driven_audio, checkpoint_dir, result_dir, batch_size, enhancer, cpu, use_DAIN, DAIN_weight, dian_output, time_step, remove_duplicates):
+    args = Namespace(
+        driven_audio=driven_audio,
+        source_video=source_video,
+        checkpoint_dir=checkpoint_dir,
+        result_dir=result_dir,
+        batch_size=batch_size,
+        enhancer=enhancer,
+        cpu=cpu,
+        use_DAIN=use_DAIN,
+        DAIN_weight=DAIN_weight,
+        dian_output=dian_output,
+        time_step=time_step,
+        remove_duplicates=remove_duplicates
+    )
+
+    if torch.cuda.is_available() and not args.cpu:
+        args.device = "cuda"
+    else:
+        args.device = "cpu"
+
+    main(args)
+
+    return os.path.join(args.result_dir, strftime("%Y_%m_%d_%H.%M.%S"))
 
 def main(args):
     pic_path = args.source_video
@@ -86,34 +113,40 @@ def main(args):
         os.system(command)
     os.remove(tmp_path)
 
+iface = gr.Interface(
+    fn=process_video,
+    inputs=[
+        gr.Video(label="Исходное видео", type="mp4"),
+        gr.Audio(label="Исходное аудио", type="filepath"),
+        gr.Textbox(value='./checkpoints', label="Папка чекпоинтов"),
+        gr.Textbox(value='./results', label="Папка результатов"),
+        gr.Number(value=1, label="Batch Size"),
+        gr.Radio(['none', 'lip', 'face'], label="Выбор использования энхансера", value='lip'),
+        gr.Checkbox(label="Использовать лишь процессор"),
+        gr.Checkbox(label="Использовать DAIN"),
+        gr.Textbox(value='./checkpoints/DAIN_weight', label="DAIN Weight Path"),
+        gr.Textbox(value='dian_output', label="Директория вывода DAIN"),
+        gr.Number(value=0.5, label="Количество шагов DAIN"),
+        gr.Checkbox(label="Убрать повторки")
+    ],
+    outputs=[
+        gr.Textbox(label="Папка результатов")
+    ],
+    title="Обработка видео и аудио",
+    description="Обработка видео с управляемым звуком с использованием заданных чекпоинтов и настроек модели."
+)
 
-if __name__ == '__main__':
+def share():
     parser = ArgumentParser()
-    parser.add_argument("--driven_audio", default='./examples/driven_audio/bus_chinese.wav',
-                        help="path to driven audio")
-    parser.add_argument("--source_video", default='./examples/source_image/input.mp4',
-                        help="path to source video")
-    parser.add_argument("--checkpoint_dir", default='./checkpoints', help="path to output")
-    parser.add_argument("--result_dir", default='./results', help="path to output")
-    parser.add_argument("--batch_size", type=int, default=1, help="the batch size of facerender")
-    parser.add_argument("--enhancer", type=str, default='lip', help="enhaner region:[none,lip,face] \
-                                                                      none:do not enhance; \
-                                                                      lip:only enhance lip region \
-                                                                      face: enhance (skin nose eye brow lip) region")
-    parser.add_argument("--cpu", dest="cpu", action="store_true")
-
-    parser.add_argument("--use_DAIN", dest="use_DAIN", action="store_true",
-                        help="Depth-Aware Video Frame Interpolation")
-    parser.add_argument('--DAIN_weight', type=str, default='./checkpoints/DAIN_weight',
-                        help='Path to model weight')
-    parser.add_argument('--dian_output', type=str, default='dian_output', help='output dir')
-    parser.add_argument('--time_step', type=float, default=0.5, help='choose the time steps')
-    parser.add_argument('--remove_duplicates', action='store_true', default=False,
-                        help='whether to remove duplicated frames')
-
+    parser.add_argument("--share", type=str, default='yes',
+                        help="создать публичную ссылку")
     args = parser.parse_args()
-    if torch.cuda.is_available() and not args.cpu:
-        args.device = "cuda"
+    if args.share.lower() == 'yes':
+        print("Публичная ссылка будет создана")
+        iface.launch(share=True)
     else:
-        args.device = "cpu"
-    main(args)
+        print("Публичная ссылка не будет создана")
+        iface.launch()
+
+if __name__ == "__main__":
+    share()
