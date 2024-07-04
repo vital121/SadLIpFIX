@@ -18,4 +18,4 @@ facexlib
 gradio
 gfpgan
 dlib-bin
-paddlepaddle-gpu==2.3.2
+paddlepaddle-gpu
