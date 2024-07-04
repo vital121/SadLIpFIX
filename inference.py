@@ -42,7 +42,6 @@ def main(args):
     mapping_checkpoint = os.path.join(current_root_path, args.checkpoint_dir, 'mapping_00109-model.pth.tar')
     facerender_yaml_path = os.path.join(current_root_path, 'src', 'config', 'facerender_still.yaml')
 
-    # init model
     print(path_of_net_recon_model)
     preprocess_model = CropAndExtract(path_of_lm_croper, path_of_net_recon_model, dir_of_BFM_fitting, device)
 
@@ -55,12 +54,11 @@ def main(args):
     print(mapping_checkpoint)
     animate_from_coeff = AnimateFromCoeff(free_view_checkpoint, mapping_checkpoint, facerender_yaml_path, device)
 
-    restorer_model = GFPGANer(model_path='checkpoints/GFPGANv1.3.pth', upscale=1, arch='clean',
+    restorer_model = GFPGANer(model_path='checkpoints/GFPGANv1.4.pth', upscale=1, arch='clean',
                               channel_multiplier=2, bg_upsampler=None)
     enhancer_model = FaceEnhancement(base_dir='checkpoints', size=512, model='GPEN-BFR-512', use_sr=False,
                                      sr_model='rrdb_realesrnet_psnr', channel_multiplier=2, narrow=1, device=device)
 
-    # crop image and extract 3dmm from image
     first_frame_dir = os.path.join(save_dir, 'first_frame_dir')
     os.makedirs(first_frame_dir, exist_ok=True)
     print('3DMM Extraction for source image')
@@ -68,10 +66,8 @@ def main(args):
     if first_coeff_path is None:
         print("Can't get the coeffs of the input")
         return
-    # audio2ceoff
     batch = get_data(first_coeff_path, audio_path, device)
     coeff_path = audio_to_coeff.generate(batch, save_dir)
-    # coeff2video
     data = get_facerender_data(coeff_path, crop_pic_path, first_coeff_path, audio_path, batch_size, device)
     tmp_path, new_audio_path, return_path = animate_from_coeff.generate(data, save_dir, pic_path, crop_info,
                                                                         restorer_model, enhancer_model, enhancer_region)
