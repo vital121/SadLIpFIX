@@ -1,7 +1,6 @@
 # SadTalker-Video-Lip-Sync
 
-
-Этот проект основан на SadTalker для реализации Wav2lip для синтеза видео губ. Используя видеофайлы для создания форм губ, управляемых голосом, и устанавливая настраиваемый метод улучшения для области лица, выполняется улучшение изображения области синтетической формы губ (лица), чтобы улучшить четкость сгенерированных форм губ. Используйте алгоритм DL интерполяции кадров DAIN, чтобы добавлять кадры в сгенерированное видео и дополнить действие перехода синтетических форм губ между кадрами, делая синтезированные формы губ более плавными, реалистичными и естественными.
+This project is based on SadTalker to implement Wav2lip for video lip synthesis. Using video files to generate voice-controlled lip shapes and setting a custom enhancement method for the face region, image enhancement is performed on the synthetic lip shape (face) region to improve the clarity of the generated lip shapes. Use the DAIN frame interpolation DL algorithm to add frames to the generated video and complement the transition action of the synthetic lip shapes between frames, making the synthesized lip shapes smoother, more realistic and natural.
 
 Колаб: [![Открыть на колаб](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NeuroDonu/SadLIpFIX/blob/master/notebok.ipynb) 
 
@@ -74,20 +73,18 @@ python inference.py --driven_audio <audio.wav> \
 |   ├──shape_predictor_68_face_landmarks.dat
 |   ├──wav2lip.pth
 ```
-
-Скачать можете вот тут: https://mega.nz/file/cW833LJY#ZCaLy3_5SUntsb_wOPztzVAwwI2rbmva8sf4bIWxPTw
+You can download it here: https://mega.nz/file/cW833LJY#ZCaLy3_5SUntsb_wOPztzVAwwI2rbmva8sf4bIWxPTw
 ```python
-#Установка чекпоинтов
+#Installing checkpoints
 apt install megatools
 cd SadTalker-Video-Lip-Sync
 megadl https://mega.nz/file/cW833LJY#ZCaLy3_5SUntsb_wOPztzVAwwI2rbmva8sf4bIWxPTw
 tar -zxvf checkpoints.tar.gz
 ```
 
-Все свежие новости выходят на моем <a href=https://t.me/derkarta>канале</a>
+All the latest news comes out on my <a href=https://t.me/derkarta>channel</a>
 
-## Взято за основу
-
+## Based on
 - SadTalker: https://github.com/Winfredy/SadTalker
 - VideoReTalking：https://github.com/vinthony/video-retalking
 - DAIN: https://arxiv.org/abs/1904.00830
