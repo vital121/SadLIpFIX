@@ -2,9 +2,9 @@
 
 This project is based on SadTalker to implement Wav2lip for video lip synthesis. Using video files to generate voice-controlled lip shapes and setting a custom enhancement method for the face region, image enhancement is performed on the synthetic lip shape (face) region to improve the clarity of the generated lip shapes. Use the DAIN frame interpolation DL algorithm to add frames to the generated video and complement the transition action of the synthetic lip shapes between frames, making the synthesized lip shapes smoother, more realistic and natural.
 
-Колаб: [![Открыть на колаб](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NeuroDonu/SadLIpFIX/blob/master/notebok.ipynb) 
+Colab: [![Open on colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NeuroDonu/SadLIpFIX/blob/master/notebok.ipynb)
 
-## 1.Установка среды. (Environment)
+## 1. Environment setup. (Environment)
 
 ```
 git clone https://github.com/NeuroDonu/SadLIpFIX
@@ -16,7 +16,7 @@ pip install -r requirements.txt
 python -m pip install paddlepaddle-gpu==2.3.2 --extra-index-url https://paddle-wheel.bj.bcebos.com/2.5.1/linux/linux-gpu-cuda12.0-cudnn8.9-mkl-gcc12.2-avx/paddlepaddle_gpu-2.5.1.post120-cp39-cp39-linux_x86_64.whl
 ```
 
-## 2.Структура репозитория
+## 2. Repository structure
 
 ```
 SadTalker-Video-Lip-Sync
